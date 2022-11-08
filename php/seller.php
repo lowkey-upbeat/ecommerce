@@ -1,3 +1,51 @@
+<?php
+$insert = false;
+if(isset($_POST['fname'])){
+
+    $server = "localhost";
+    $username = "root";
+    $password = "";
+
+    $con = mysqli_connect($server, $username, $password);
+
+    if(!$con){
+        die("connection to this database failed due to".
+        mysqli_connect_error());
+    }
+    //echo "Succes connecting to db"
+
+
+    $fname = $_POST['fname'];
+    $lname =$_POST['lname'];
+    $phone =$_POST['phone'];
+    $email =$_POST['email'];
+    $sname =$_POST['sname'];
+    $address =$_POST['address'];
+    $pincode =$_POST['pin'];
+    $password =$_POST['pwd'];
+
+
+    $sql = "INSERT INTO `ecommerce`.`seller` (`fname`, `lname`, `phone`, `email`, `sname`, `address`, `pin`, `pwd`, `dt`) VALUES ('$fname', '$lname', '$phone', '$email', '$sname', '$address', '$pincode', '$password', current_timestamp())";
+
+
+    if($con->query($sql) == true){
+        // echo "succesfully inserted";
+        $insert = true;
+        $url="../store.html";
+        echo '<script>window.location = "'.$url.'";</script>';
+        die;
+    }
+    else{
+        echo "ERROR: $sql <br> $con->error";
+        
+    }
+    
+
+    $con->close();
+    
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,10 +93,18 @@
                     <input type="password" id="pwd" name="pwd"><br>
                     <label for="pwd">Re-Enter Password:</label>
                     <input type="password" id="pwd" name="pwd"><br><br>
-                    <button type="submit" class="btn btn-primary submit-btn" onClick="myFunction()">Submit</button>
 
+                    <fieldset>
+                        <legend>Upload products</legend>
+                        <input type="file" name="choosefile">
+                        <div>
+                            <button type="submit" name="uploadfile">
+                                UPLOAD
+                            </button>
+                        </div>
+                    </fieldset>
 
-
+                    <button type="submit" class="btn btn-primary submit-btn" onclick="myFunction()">Submit</button>
                 </form>
             </div>
         </div>
